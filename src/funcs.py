@@ -46,5 +46,5 @@ async def calculate_currencies(base: str, quote: str, amount: int) -> str:
 
 async def create_schedule() -> None:
     scheduler = AsyncIOScheduler()
-    scheduler.add_job(update_currencies, "interval", hours=24, start_date='2023-01-01 19:22:40', name='currencies')
+    scheduler.add_job(update_currencies, "interval", hours=24, start_date='2023-01-01 12:00:00', name='currencies')
     scheduler.start()
