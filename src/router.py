@@ -7,16 +7,6 @@ from src.funcs import calculate_currencies, format_currencies
 main_router = Router()
 
 
-@main_router.message(Command('gid'))
-async def gid(message: Message) -> None:
-    await message.answer(text=str(message.chat.id))
-
-
-@main_router.message(Command('id'))
-async def ids(message: Message) -> None:
-    await message.answer(text=str(message.from_user.id))
-
-
 @main_router.message(Command('start'))
 async def start(message: Message) -> None:
     name = message.from_user.username if message.from_user.username else message.from_user.first_name
