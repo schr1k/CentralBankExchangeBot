@@ -38,10 +38,12 @@ async def format_currencies() -> str:
 
 
 async def calculate_currencies(base: str, quote: str, amount: int) -> str:
-    base_rate = float(await redis.get(name=base))
-    quote_rate = float(await redis.get(name=quote))
+    base_rate = float(await redis.get(name=base.upper()))
+    quote_rate = float(await redis.get(name=quote.upper()))
+    if base_rate is None or quote_rate is None:
+        return 'Введена неправильная валюта'
     result = amount * base_rate / quote_rate
-    return f'{result} рублей'
+    return f'{amount} {base.upper()} = {result} {quote.upper()}'
 
 
 async def create_schedule() -> None:
