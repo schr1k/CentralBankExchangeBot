@@ -1,0 +1,49 @@
+services:
+    redis_exchange_bot:
+        container_name:
+            redis_exchange_bot
+        image:
+            redis:alpine
+        restart:
+            unless-stopped
+        volumes:
+            - redis-exchange-bot:/var/lib/redis/data
+        env_file:
+            - path: .env
+              required: true
+        healthcheck:
+            test: redis-cli PING | grep PONG
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 10s
+        deploy:
+            resources:
+                limits:
+                    cpus: "1"
+                    memory: 1000M
+    exchange_bot:
+        container_name:
+            exchange_bot
+        build:
+            context:
+                .
+            dockerfile:
+                Dockerfile
+        restart:
+            unless-stopped
+        depends_on:
+            - redis_exchange_bot
+        develop:
+            watch:
+                - action: sync+restart
+                  path: .
+                  target: /app
+        deploy:
+            resources:
+                limits:
+                    cpus: "2"
+                    memory: 2000M
+
+volumes:
+    redis-exchange-bot:
