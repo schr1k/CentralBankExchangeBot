@@ -24,7 +24,6 @@ async def rates(message: Message) -> None:
 
 @main_router.message(Command('exchange'))
 async def exchange(message: Message, command: CommandObject) -> None:
-    print(type(command.args))
     base, quote, amount = command.args.split()
     result = await calculate_currencies(base, quote, int(amount))
     await message.answer(text=result)
