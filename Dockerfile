@@ -1,5 +1,7 @@
 FROM python:3.12-alpine
 
+ENV TZ="Europe/Moscow"
+
 WORKDIR /app
 
 COPY . .
