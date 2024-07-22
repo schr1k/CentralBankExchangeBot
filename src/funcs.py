@@ -29,7 +29,7 @@ async def format_currencies() -> str:
     data = await get_currencies('https://cbr.ru/scripts/XML_daily.asp')
     if not data:
         print('Ошибка при парсинге курса валют')
-        return
+        return 'Ошибка при парсинге курса валют'
     currencies = data['ValCurs']['Valute']
     text = 'Актуальный курс валют:\n'
     for currency in currencies:
@@ -38,11 +38,11 @@ async def format_currencies() -> str:
 
 
 async def calculate_currencies(base: str, quote: str, amount: int) -> str:
-    base_rate = float(await redis.get(name=base.upper()))
-    quote_rate = float(await redis.get(name=quote.upper()))
+    base_rate = await redis.get(name=base.upper())
+    quote_rate = await redis.get(name=quote.upper())
     if base_rate is None or quote_rate is None:
         return 'Введена неправильная валюта'
-    result = amount * base_rate / quote_rate
+    result = amount * float(base_rate) / float(quote_rate)
     return f'{amount} {base.upper()} = {result} {quote.upper()}'
 
 
