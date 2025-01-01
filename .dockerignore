@@ -11,8 +11,12 @@ __pycache__
 .github
 .gitignore
 README.md
+LICENSE.md
+CODE_OF_CONDUCT.md
 
 # Docker
 .dockerignore
 Dockerfile
-docker-compose.yaml
+compose.yaml
+
+.env.example
